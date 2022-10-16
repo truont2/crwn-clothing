@@ -1,40 +1,22 @@
+import Home from "./routes/home/home.component.jsx";
+import { Routes, Route} from "react-router-dom";
+import Navigation from "./routes/navigation/navigation.component.jsx";
+import SignIn from "./routes/sign-in/sign-in.component.jsx";
 
-import Directory from "./components/directory/directory.component";
 
-function App() {
-
-  const categories = [
-    {
-      "id": 1,
-      "title": "hats",
-      "imageUrl": "https://i.ibb.co/cvpntL1/hats.png"
-    },
-    {
-      "id": 2,
-      "title": "jackets",
-      "imageUrl": "https://i.ibb.co/px2tCc3/jackets.png"
-    },
-    {
-      "id": 3,
-      "title": "sneakers",
-      "imageUrl": "https://i.ibb.co/0jqHpnp/sneakers.png"
-    },
-    {
-      "id": 4,
-      "title": "womens",
-      "imageUrl": "https://i.ibb.co/GCCdy8t/womens.png"
-    },
-    {
-      "id": 5,
-      "title": "mens",
-      "imageUrl": "https://i.ibb.co/R70vBrQ/men.png"
-    }
-  ]
-  ;
-
+const App = () => {
   return (
-    <Directory categories={categories}/>
+    // allows applciation to register the route level components that will render certain eleelmtnsat certain paths
+    // anything that is going to be routable needs to be inside routes
+    <Routes>
+    {/* by having the home route render navigation, itll keep the navbar on all pages and persistent */}
+      <Route path="/" element={<Navigation />}>
+      {/* path will match the parent so only shows home component on the home page */}
+        <Route index={true} element={<Home />} />  
+        <Route path='sign-in' element={<SignIn />} />
+      </Route>
+    </Routes>
   );
-}
+};
 
 export default App;
