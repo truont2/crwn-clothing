@@ -3,7 +3,7 @@ import {auth, signInWithGooglePopup, createUserDocumentFromAuth, signInWithGoogl
 // import {getRedirectResult} from 'firebase/auth'
 import SignUpForm from '../../components/sign-up-form/sign-up-form.component.jsx';
 
-const SignIn = () => {
+const Authentication = () => {
     const logGoogleUser = async () => {
         const {user} = await signInWithGooglePopup();
         const userDocRef = await createUserDocumentFromAuth(user);
@@ -30,4 +30,4 @@ const SignIn = () => {
     )
 }
 
-export default SignIn;
+export default Authentication;
