@@ -13,7 +13,7 @@ import { CartContext } from "../../contexts/cart.context";
 
 import "./navigation.styles.scss";
 const Navigation = () => {
-  const { currentUser} = useContext(UserContext);
+  const {currentUser} = useContext(UserContext);
   const {isCartOpen} = useContext(CartContext)
 
   return (
