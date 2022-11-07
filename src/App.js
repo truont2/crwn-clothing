@@ -15,7 +15,7 @@ const App = () => {
       {/* path will match the parent so only shows home component on the home page */}
         <Route index={true} element={<Home />} />  
         <Route path='auth' element={<Authentication />} />
-        <Route path='shop' element={<Shop />} />
+        <Route path='shop/*' element={<Shop />} />
         <Route path='checkout' element={<Checkout />} />
       </Route>
     </Routes>
