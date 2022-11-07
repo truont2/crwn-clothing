@@ -5,11 +5,20 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
-  signInWithEmailAndPassword, 
-  signOut, 
-  onAuthStateChanged
+  signInWithEmailAndPassword,
+  signOut,
+  onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore, doc, getDoc, setDoc } from "firebase/firestore";
+import {
+  getFirestore,
+  doc,
+  getDoc,
+  setDoc,
+  collection,
+  writeBatch,
+  query, 
+  getDocs
+} from "firebase/firestore";
 
 // Your web app's Firebase configuration
 // identifies the library that abstracts the functionality of what we need in order to use firebase
@@ -42,8 +51,44 @@ export const signInWithGoogleRedirect = () =>
 // create db
 export const db = getFirestore();
 
+export const addCollectionAndDocuments = async (
+  collectionKey,
+  objectsToAdd
+) => {
+  const collectionRef = collection(db, collectionKey);
+  // try to store all the documents in a single transaction
+  const batch = writeBatch(db);
+
+  objectsToAdd.forEach((object) => {
+    // get the document reference
+    const docRef = doc(collectionRef, object.title.toLowerCase());
+    batch.set(docRef, object);
+  });
+
+  await batch.commit();
+  console.log("done");
+};
+
+export const getCategoriesandDocuments = async () => {
+  const q = collection(db, "categories");
+
+  const querySnapshot = await getDocs(q)
+
+  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+    const {title, items} = docSnapshot.data();
+
+    acc[title.toLowerCase()] = items;
+    return acc;
+  }, {});
+
+  return categoryMap;
+};
+
 // store athentication information into firestore
-export const createUserDocumentFromAuth = async (userAuth, additionalInformation) => {
+export const createUserDocumentFromAuth = async (
+  userAuth,
+  additionalInformation
+) => {
   if (!userAuth) return;
 
   console.log("auth method");
@@ -56,13 +101,13 @@ export const createUserDocumentFromAuth = async (userAuth, additionalInformation
     const { displayName, email } = userAuth;
     const createdAt = new Date();
     try {
-        // additional information needed if we signup and there is no display name
-        // use the additional information in order to pass it in
+      // additional information needed if we signup and there is no display name
+      // use the additional information in order to pass it in
       await setDoc(userDocRef, {
         displayName,
         email,
         createdAt,
-        ...additionalInformation
+        ...additionalInformation,
       });
     } catch (err) {
       console.log("error creating the user", err.message);
@@ -89,8 +134,8 @@ export const signInAuthUserWithEmailAndPassword = async (email, password) => {
 };
 
 // tells firebase what user to sign out in firebase
-export const signOutUser = async() => await signOut(auth);
+export const signOutUser = async () => await signOut(auth);
 
 export const onAuthStateChangedListener = (callback) => {
-  return onAuthStateChanged(auth, callback)
-}
+  return onAuthStateChanged(auth, callback);
+};
