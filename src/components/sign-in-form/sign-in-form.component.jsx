@@ -5,7 +5,9 @@ import {
 } from "../../utils/firebase/firebase.utils";
 import FormInput from "../form-input/form-input.component";
 import "./sign-in-form.styles.scss";
-import Button from "../button/button.component";
+
+
+import Button, {BUTTON_TYPE_CLASSES} from "../button/button.component";
 
 
 // initalize default values of the form state instead of doing it inside of the component
@@ -76,7 +78,7 @@ const SignInForm = () => {
         <div className="buttons-container">
           <Button type="submit">Sign In</Button>
           {/* need type button becuase buttons are default submit */}
-          <Button type='buton' onClick={SignInWithGoogle} buttonType="google">
+          <Button buttonType={BUTTON_TYPE_CLASSES.google} onClick={SignInWithGoogle} >
             Google sign in
           </Button>
         </div>
