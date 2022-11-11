@@ -1,5 +1,3 @@
-import "./cart-icon.styles.scss";
-
 import { useContext } from "react";
 import { CartContext } from "../../contexts/cart.context";
 

@@ -1,21 +1,20 @@
 import React from "react";
-import './form-input.styles.scss'
+import {FormInputLabel, Input, Group} from './form-input.styles.jsx'
 
 const FormInput = ({ label, ...otherProps }) => {
   return (
-    <div className="group">
-    <input className="form-input" {...otherProps} />
+    <Group className="group">
+    <Input className="form-input" {...otherProps} />
     {/* basically if the user has typed something, then apply the shrink class */}
       {label && (
-        <label
-          className={`${
-            otherProps.value.length ? 'shrink' : ""
-          } form-input-label`}
+        <FormInputLabel
+        // 0 falsey, everything else truthy
+          shrink={otherProps.value.length}
         >
           {label}
-        </label>
+        </FormInputLabel>
       )}
-    </div>
+    </Group>
   );
 };
 
