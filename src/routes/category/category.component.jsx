@@ -2,17 +2,24 @@ import {CategoryContainer, CategoryTitle} from "./category.styles.jsx";
 
 import { useParams } from "react-router-dom";
 import { useState, useEffect, Fragment } from "react";
-import { useContext } from "react";
+// import { useContext } from "react";
 
-import { CategoriesContext } from "../../contexts/categories.context";
+// import { CategoriesContext } from "../../contexts/categories.context";
 import ProductCard from "../../components/product-card/product-card.component";
 
+// redux
+import {selectCategoriesMap} from '../../store/categories/category.selector'
+import { useSelector } from "react-redux";
+
 const Category = () => {
+  const categoriesMap = useSelector(selectCategoriesMap);
+
   const { category } = useParams();
-  const { categoriesMap } = useContext(CategoriesContext);
+  // const { categoriesMap } = useContext(CategoriesContext);
 
   // want to use usesState and useEffect because everytime the component rerenders, the products will be gone
   const [products, setProducts] = useState(categoriesMap[category]);
+  
   useEffect(() => {
     setProducts(categoriesMap[category]);
   }, [category, categoriesMap]);

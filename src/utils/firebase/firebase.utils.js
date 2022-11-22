@@ -15,8 +15,7 @@ import {
   getDoc,
   setDoc,
   collection,
-  writeBatch,
-  query, 
+  writeBatch, 
   getDocs
 } from "firebase/firestore";
 
@@ -73,15 +72,19 @@ export const getCategoriesandDocuments = async () => {
   const q = collection(db, "categories");
 
   const querySnapshot = await getDocs(q)
+  // this way returns the data of categories as an array
+  return querySnapshot.docs.map(docSnapshot => docSnapshot.data())
 
-  const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
-    const {title, items} = docSnapshot.data();
+  // const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot) => {
+  //   const {title, items} = docSnapshot.data();
 
-    acc[title.toLowerCase()] = items;
-    return acc;
-  }, {});
+  //   acc[title.toLowerCase()] = items;
+  //   return acc;
+  // }, {});
 
-  return categoryMap;
+
+
+  // return categoryMap;
 };
 
 // store athentication information into firestore
@@ -91,11 +94,9 @@ export const createUserDocumentFromAuth = async (
 ) => {
   if (!userAuth) return;
 
-  console.log("auth method");
   const userDocRef = doc(db, "users", userAuth.uid);
 
   const userSnapShot = await getDoc(userDocRef);
-  console.log(userSnapShot);
 
   if (!userSnapShot.exists()) {
     const { displayName, email } = userAuth;
