@@ -6,7 +6,7 @@ import reportWebVitals from "./reportWebVitals";
 import { BrowserRouter } from "react-router-dom"; //generic router that leverages the url to keep track of the history
 // import { UserProvider } from "./contexts/user.context";
 // import { CategoriesProvider } from "./contexts/categories.context";
-import { CartProvider } from "./contexts/cart.context";
+// import { CartProvider } from "./contexts/cart.context";
 
 // redux
 import { Provider } from "react-redux";
