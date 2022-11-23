@@ -32,7 +32,7 @@ export const Arrow = styled.div`
 `;
 
 export const Value = styled.span`
-  margin: 0 10px;
+  margin: 3px 10px;
 `;
 
 export const RemoveButton = styled.div`
