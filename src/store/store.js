@@ -2,6 +2,10 @@ import { compose, applyMiddleware } from "redux";
 import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
 
+// redux persist
+import {persistStore, persistReducer} from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+
 import { rootReducer } from "./root-reducer";
 // create your own middleware with chained currying funcitons
 const loggerMiddleware = (store) => (next) => (action) => {
@@ -27,10 +31,25 @@ const middleWares = [loggerMiddleware];
 // catch actions before they go into the reducer
 const composedEnhancers = compose(applyMiddleware(...middleWares));
 
+// redux persist setup
+// configuration object
+const persistConfig = {
+  key: 'root', 
+  storage: storage,
+  blacklist: ['user']
+}
+
+// setuyp persist reducer
+// pass into our store instead of the root reducer
+const persistReducer = (persistConfig, rootReducer);
+
+
 // store i s just here to facilitate the moving and passing of actions in the reducers
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: persistReducer,
   middleware: middleWares,
 });
 
 // export const store = createStore(rootReducer, undefined, composedEnhancers);
+export const persistor = persistStore(store);
+

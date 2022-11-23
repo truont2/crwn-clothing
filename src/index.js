@@ -10,22 +10,27 @@ import { CartProvider } from "./contexts/cart.context";
 
 // redux
 import { Provider } from "react-redux";
-import {store} from './store/store'
+import { store, persistor } from "./store/store";
+
+// import persisted store
+import { PersistGate } from "redux-persist/integration/react";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* wwant to make browser router the parent of the app. Now you can access all the features included with react router dom */}
-      <BrowserRouter>
-        {/* <UserProvider> */}
+      <PersistGate persistor={persistor}>
+        {/* wwant to make browser router the parent of the app. Now you can access all the features included with react router dom */}
+        <BrowserRouter>
+          {/* <UserProvider> */}
           {/* <CategoriesProvider> */}
-            {/* <CartProvider> */}
-              <App />
-            {/* </CartProvider> */}
+          {/* <CartProvider> */}
+          <App />
+          {/* </CartProvider> */}
           {/* </CategoriesProvider> */}
-        {/* </UserProvider> */}
-      </BrowserRouter>
+          {/* </UserProvider> */}
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   </React.StrictMode>
 );
