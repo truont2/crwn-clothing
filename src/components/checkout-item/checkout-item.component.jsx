@@ -1,6 +1,6 @@
-import { CartContext } from '../../contexts/cart.context';
+// import { CartContext } from '../../contexts/cart.context';
 
-import { useContext } from 'react';
+// import { useContext } from 'react';
 
 import {
     CheckoutItemContainer,
@@ -12,19 +12,26 @@ import {
     RemoveButton,
   } from './checkout-item.styles';
 
+// redux
+import { useSelector, useDispatch } from 'react-redux';
+import {removeItemToCart, addItemToCart, clearItemFromCart} from '../../store/cart/cart.action'
+import { selectCartItems } from '../../store/cart/cart.selector';
+
 const CheckoutItem = ({cartItem}) => {
     const {name, imageUrl, price, quantity} = cartItem;
-    const { addItemToCart, removeItemToCart, clearItemFromCart} = useContext(CartContext);
+    // const { addItemToCart, removeItemToCart, clearItemFromCart} = useContext(CartContext);
+    const dispatch = useDispatch();
+    const cartItems = useSelector(selectCartItems)
 
-    const clearItemHandler = () => clearItemFromCart(cartItem);
+    const clearItemHandler = () => dispatch(clearItemFromCart(cartItems, cartItem));
     // create anonymous methods so its easy to upodate function if they change and for code clarity
     // can optimize code too
     const addItemHandler = () => {
-        addItemToCart(cartItem);
+        dispatch(addItemToCart(cartItems,cartItem));
     }
 
     const removeItemHandler = () => {
-        removeItemToCart(cartItem);
+        dispatch(removeItemToCart(cartItems, cartItem));
     }
 
     return (
@@ -38,9 +45,9 @@ const CheckoutItem = ({cartItem}) => {
                     &#10094;
                 </Arrow>
                     <Value>{quantity}</Value>
-                <div className='arrow' onClick={addItemHandler}>
+                <Arrow className='arrow' onClick={addItemHandler}>
                     &#10095;
-                </div>
+                </Arrow>
             </Quantity>
             <BaseSpan>{price}</BaseSpan>
             <RemoveButton onClick={clearItemHandler}>
