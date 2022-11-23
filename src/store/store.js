@@ -41,12 +41,12 @@ const persistConfig = {
 
 // setuyp persist reducer
 // pass into our store instead of the root reducer
-const persistReducer = (persistConfig, rootReducer);
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 
 // store i s just here to facilitate the moving and passing of actions in the reducers
 export const store = configureStore({
-  reducer: persistReducer,
+  reducer: persistedReducer,
   middleware: middleWares,
 });
 

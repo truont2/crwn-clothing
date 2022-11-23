@@ -19,7 +19,7 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <PersistGate persistor={persistor}>
+      <PersistGate loading={null} persistor={persistor}>
         {/* wwant to make browser router the parent of the app. Now you can access all the features included with react router dom */}
         <BrowserRouter>
           {/* <UserProvider> */}
