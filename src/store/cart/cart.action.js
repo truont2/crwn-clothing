@@ -15,13 +15,6 @@ const addCartItem = (cartItems, productToAdd) => {
         cartItem.id === productToAdd.id
           ? { ...cartItem, quantity: cartItem.quantity + 1 }
           : cartItem
-      // {
-      //     if(cartItem.id === productToAdd.id) {
-      //         return { ...cartItem, quantity: cartItem.quantity + 1 }
-      //     } else {
-      //         return cartItem;
-      //     }
-      // }
     );
   }
 

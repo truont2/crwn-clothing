@@ -1,4 +1,4 @@
-import {CategoryContainer, CategoryTitle} from "./category.styles.jsx";
+import { CategoryContainer, CategoryTitle } from "./category.styles.jsx";
 
 import { useParams } from "react-router-dom";
 import { useState, useEffect, Fragment } from "react";
@@ -8,10 +8,18 @@ import { useState, useEffect, Fragment } from "react";
 import ProductCard from "../../components/product-card/product-card.component";
 
 // redux
-import {selectCategoriesMap} from '../../store/categories/category.selector'
+import {
+  selectCategoriesMap,
+  selectCategoriesIsLoading,
+} from "../../store/categories/category.selector";
 import { useSelector } from "react-redux";
 
+import Spinner from '../../components/spinner/spinner.component';
+
+
 const Category = () => {
+  const isLoading = useSelector(selectCategoriesIsLoading);
+
   const categoriesMap = useSelector(selectCategoriesMap);
 
   const { category } = useParams();
@@ -19,22 +27,29 @@ const Category = () => {
 
   // want to use usesState and useEffect because everytime the component rerenders, the products will be gone
   const [products, setProducts] = useState(categoriesMap[category]);
-  
+
   useEffect(() => {
     setProducts(categoriesMap[category]);
   }, [category, categoriesMap]);
 
   return (
     <Fragment>
+     
       <CategoryTitle>{category.toUpperCase()}</CategoryTitle>
-      <CategoryContainer>
-        {/* {products && products.map} safeguard to only render products map when products has a value*/}
-        {/* without this, react will try to map over an empty object whihch is products initial value in the beginning befoire the data is retrieved from firebase */}
-        {products &&
-          products.map((product) => {
-            return <ProductCard key={product.id} product={product} />;
-          })}
-      </CategoryContainer>
+     
+      {isLoading ? (
+        <Spinner />
+      ) : (
+        <CategoryContainer>
+          {/* {products && products.map} safeguard to only render products map when products has a value*/}
+          {/* without this, react will try to map over an empty object whihch is products initial value in the beginning befoire the data is retrieved from firebase */}
+          {products &&
+            products.map((product) => {
+              return <ProductCard key={product.id} product={product} />;
+            })}
+        </CategoryContainer>
+      )}
+      
     </Fragment>
   );
 };

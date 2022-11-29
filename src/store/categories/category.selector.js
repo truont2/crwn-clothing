@@ -40,3 +40,9 @@ export const selectCategoriesMap = createSelector(
     }, {});
   }
 );
+
+// category selector to get loading value
+export const selectCategoriesIsLoading = createSelector(
+  [selectCategoryReducer], 
+  (categoriesSlice) => categoriesSlice.isLoading
+);

@@ -8,15 +8,18 @@ import storage from 'redux-persist/lib/storage'
 
 import { rootReducer } from "./root-reducer";
 
+// redux thunk
+import thunk from 'redux-thunk'
+
 // only use logger in development, will return false if not in development and so we filter out anything that is not true
-const middleWares = [process.env.NODE_ENV !== 'production' && logger].filter(Boolean);
+const middleWares = [process.env.NODE_ENV !== 'production' && logger, thunk].filter(Boolean);
 
 // redux persist setup
 // configuration object
 const persistConfig = {
   key: 'root', 
   storage: storage,
-  blacklist: ['user']
+  whitelist: ['cart'] //only really need to store cart, everything else handled using redux thunk
 }
 
 // setuyp persist reducer
